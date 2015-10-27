@@ -85,7 +85,7 @@ void setup()
      float x = i*float(1)/7*sizeOfInputArea+200;
      float y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
      float w = float(1)/7*sizeOfInputArea;
-     float h = float(1)/7*sizeOfInputArea;
+     float h = float(1)/5*sizeOfInputArea;
      
      //print(float(1)/7 * 5);
      //print("| x: " +x+ "y: " + y + "width: " + w + "height: " + h + " ");
@@ -150,9 +150,9 @@ void draw()
     text("NEXT > ", 850, 100); //draw next label
 
 
-    //my draw code
-    //textAlign(CENTER);
-    //text("" + currentLetter, 200+sizeOfInputArea/2, 200+sizeOfInputArea/3); //draw current letter
+    // Harrison draw code
+    textAlign(CENTER);
+    text("" + currentLetter, 200+sizeOfInputArea/2, 200+sizeOfInputArea/10); // Draw current letter.  Given new dimensions of grid, this must be spaced 1/2 * 1/5 * sizeOf... to display above keyboard
     //fill(255, 0, 0);
     //rect(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
     //fill(0, 255, 0);
