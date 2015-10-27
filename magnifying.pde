@@ -57,6 +57,7 @@ class Key {
     // Color calculated using sine wave
     fill(0);
     rect(x,y,w,h);
+    //print("| x: " +x+ "y: " + y + "width: " + w + "height: " + h + " ");
     text(letter, lx,ly); // draw letter in middle of square
   }
 }
@@ -75,21 +76,30 @@ void setup()
   // TODO: Initialize grid of keys, then: TODO: Draw keys on screen
   // NOTE: Will need to change hardcoded key size, etc for size of screen
   
-  inputLetter = "a";
+  char inputLetter = 'a';
   grid = new Key[cols][rows];
   for (int i = 0; i < cols; i++) {
    for (int j = 0; j < rows; j++) {
-     // Initialize each object
-     grid[i][j] = new Key(i*1/7*sizeOfInputArea+200,(j+1)*1/5*sizeOfInputArea+200,1/7*sizeOfInputArea,1/7*sizeOfInputArea,);  // (j+1) to leave room for char input // TODO: ADD IN RIGHT LETTER
+     // Initialize each object parameters
+     float x = i*float(1)/7*sizeOfInputArea+200;
+     float y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
+     float w = float(1)/7*sizeOfInputArea;
+     float h = float(1)/7*sizeOfInputArea;
      
-     charIndex = j*7+i+1
+     //print(float(1)/7 * 5);
+     //print("| x: " +x+ "y: " + y + "width: " + w + "height: " + h + " ");
+     
+     // Initialize the Key object
+     grid[i][j] = new Key(x,y,w,h, inputLetter);  //  // TODO: ADD IN RIGHT LETTER
+     
+     int charIndex = j*7+i+1;
      // Increment correct character for next key on keyboard
      if (charIndex < 25)  // 0-25 for alphabet characters
        inputLetter++;
      else if (charIndex == 25) // If 25, then alphabet is done.  Draw space
-       inputLetter = "_"
+       inputLetter = '_';
      else if (charIndex == 26) // If 26, 
-       inputLetter = "`"
+       inputLetter = '`';
      
    }
   }
@@ -140,14 +150,20 @@ void draw()
 
 
     //my draw code
-    textAlign(CENTER);
-    text("" + currentLetter, 200+sizeOfInputArea/2, 200+sizeOfInputArea/3); //draw current letter
-    fill(255, 0, 0);
-    rect(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
-    fill(0, 255, 0);
-    rect(200+sizeOfInputArea/2, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
+    //textAlign(CENTER);
+    //text("" + currentLetter, 200+sizeOfInputArea/2, 200+sizeOfInputArea/3); //draw current letter
+    //fill(255, 0, 0);
+    //rect(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
+    //fill(0, 255, 0);
+    //rect(200+sizeOfInputArea/2, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
     
-    
+    // New draw code for alphabet grid // TODO: FIX SCAFFOLD CODE TO CHANGE SIZE OF TEXT DISPLAY AND GET RID OF CYCLE BUTTONS
+    for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < rows; j++) {
+      // Oscillate and display each object
+      grid[i][j].display();
+    }
+  }
     //normal.mask(mascara);
   }
   
