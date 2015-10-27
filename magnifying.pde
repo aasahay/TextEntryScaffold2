@@ -24,7 +24,7 @@ char currentLetter = 'a';
 
 // ----- Set up for grid drawing---------------
 
-int cols = 10;
+int cols = 7; // For 28 total keys, the alphabet plus space and delete
 int rows = 4;
 
 Key[][] grid;
@@ -39,6 +39,7 @@ class Key {
   float x,y;   // x,y location
   float w,h;   // width and height
   char letter; // letter that the key has
+  float lx,ly; // x,y of letter
   
   // Cell Constructor
   Key(float tempX, float tempY, float tempW, float tempH, char l) {
@@ -47,6 +48,8 @@ class Key {
     w = tempW;
     h = tempH;
     letter = l;
+    lx = tempX + (.5*tempW);
+    ly = tempY + (.5*tempH);
   } 
 
   void display() {
@@ -54,7 +57,7 @@ class Key {
     // Color calculated using sine wave
     fill(0);
     rect(x,y,w,h);
-    text(letter, x,y);
+    text(letter, lx,ly); // draw letter in middle of square
   }
 }
 
@@ -68,6 +71,28 @@ void setup()
   size(1000, 1000); //Sets the size of the app. You may want to modify this to your device. Many phones today are 1080 wide by 1920 tall.
   textFont(createFont("Arial", 24)); //set the font to arial 24
   noStroke(); //my code doesn't use any strokes.
+  
+  // TODO: Initialize grid of keys, then: TODO: Draw keys on screen
+  // NOTE: Will need to change hardcoded key size, etc for size of screen
+  
+  inputLetter = "a";
+  grid = new Key[cols][rows];
+  for (int i = 0; i < cols; i++) {
+   for (int j = 0; j < rows; j++) {
+     // Initialize each object
+     grid[i][j] = new Key(i*1/7*sizeOfInputArea+200,(j+1)*1/5*sizeOfInputArea+200,1/7*sizeOfInputArea,1/7*sizeOfInputArea,);  // (j+1) to leave room for char input // TODO: ADD IN RIGHT LETTER
+     
+     charIndex = j*7+i+1
+     // Increment correct character for next key on keyboard
+     if (charIndex < 25)  // 0-25 for alphabet characters
+       inputLetter++;
+     else if (charIndex == 25) // If 25, then alphabet is done.  Draw space
+       inputLetter = "_"
+     else if (charIndex == 26) // If 26, 
+       inputLetter = "`"
+     
+   }
+  }
 }
 
 //You can modify anything in here. This is just a basic implementation.
