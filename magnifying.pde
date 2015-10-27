@@ -22,6 +22,42 @@ final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
 
+// ----- Set up for grid drawing---------------
+
+int cols = 10;
+int rows = 4;
+
+Key[][] grid;
+
+// --------------------------------------------
+
+// Key class for each key
+
+class Key {
+  // A key object knows about its location in the grid 
+  // as well as its size with the variables x,y,w,h
+  float x,y;   // x,y location
+  float w,h;   // width and height
+  char letter; // letter that the key has
+  
+  // Cell Constructor
+  Key(float tempX, float tempY, float tempW, float tempH, char l) {
+    x = tempX;
+    y = tempY;
+    w = tempW;
+    h = tempH;
+    letter = l;
+  } 
+
+  void display() {
+    stroke(255);
+    // Color calculated using sine wave
+    fill(0);
+    rect(x,y,w,h);
+    text(letter, x,y);
+  }
+}
+
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -85,13 +121,6 @@ void draw()
     rect(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
     fill(0, 255, 0);
     rect(200+sizeOfInputArea/2, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
-    
-    // Implementing magnifying
-    strokeWeight(2);
-    stroke(0);
-    noFill();
-    ellipse(mouseX, mouseY-30, 80, 80); // -30 because the user needs to be able to see over finger
-    mascara=get();
     
     
     //normal.mask(mascara);
