@@ -58,6 +58,7 @@ class Key {
     fill(0);
     rect(x,y,w,h);
     //print("| x: " +x+ "y: " + y + "width: " + w + "height: " + h + " ");
+    fill(255);
     text(letter, lx,ly); // draw letter in middle of square
   }
 }
@@ -78,8 +79,8 @@ void setup()
   
   char inputLetter = 'a';
   grid = new Key[cols][rows];
-  for (int i = 0; i < cols; i++) {
-   for (int j = 0; j < rows; j++) {
+  for (int j = 0; j < rows; j++) {
+   for (int i = 0; i < cols; i++) {
      // Initialize each object parameters
      float x = i*float(1)/7*sizeOfInputArea+200;
      float y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
@@ -94,11 +95,11 @@ void setup()
      
      int charIndex = j*7+i+1;
      // Increment correct character for next key on keyboard
-     if (charIndex < 25)  // 0-25 for alphabet characters
+     if (charIndex < 26)  // 0-25 for alphabet characters
        inputLetter++;
-     else if (charIndex == 25) // If 25, then alphabet is done.  Draw space
+     else if (charIndex == 26) // If 25, then alphabet is done.  Draw space
        inputLetter = '_';
-     else if (charIndex == 26) // If 26, 
+     else if (charIndex == 27) // If 26, 
        inputLetter = '`';
      
    }
