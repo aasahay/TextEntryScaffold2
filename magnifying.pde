@@ -130,43 +130,43 @@ void setup()
 
 // Retrieves the letter of the currently moused-over cell
 // Assumes that key is currently over alphabet keys
-void setCurrentLetter(int x, int y) {
+char setCurrentLetter(int x, int y) {
   float keyWidth = sizeOfInputArea/7;
   float keyHeight = sizeOfInputArea/5;
   
   // ------ Short circuit for mouse over space and delete ------
   // Check for space
   
-  println("Here in setCurrentLetter");
-  if (x > float(5)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) 
-    if (y > float(4)/5*sizeOfInputArea+200 & y < 200 + sizeOfInputArea) // Moused over space
-      currentLetter = '_';
+  if (x > float(5)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
+    if (y > float(4)/5*sizeOfInputArea+200 & y < 200 + sizeOfInputArea) {// Moused over space
       println("Recognizing space key");
-      
-  // Check for backspace
-  if (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea)
-    if (y > 200 & y < 200 + float(1)/5 * sizeOfInputArea)
-      currentLetter = '`';
+      return '_';
+    }
+  // Check for delete
+  } else if (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
+    if (y > 200 & y < 200 + float(1)/5 * sizeOfInputArea) {
       println("Recognizing delete key");
-    
+      return '`';
+    }
   // ------ If mouse is over any alphabet key ------
-  
-  int i = 0; // For cols
-  int j = 0; // For rows
-  
-  // Get column index
-  while (x - 200 - i * keyWidth > keyWidth) {
-    i++;
+  } else {
+    int i = 0; // For cols
+    int j = 0; // For rows
+    
+    // Get column index
+    while (x - 200 - i * keyWidth > keyWidth) {
+      i++;
+    }
+    
+    // Get row index
+    while (y - 200 - (j+1) * keyHeight > keyHeight) {
+      j++;
+    }
+    
+    // Set alphabet key
+    Key userKey = grid[i][j];
+    return userKey.letter;
   }
-  
-  // Get row index
-  while (y - 200 - (j+1) * keyHeight > keyHeight) {
-    j++;
-  }
-  
-  // Set alphabet key
-  Key userKey = grid[i][j];
-  currentLetter = userKey.letter;
 }
 
 //You can modify anything in here. This is just a basic implementation.
