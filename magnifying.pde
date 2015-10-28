@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.Collections;
-PImage mascara; 
-PImage magnified, normal;
+
 
 
 String[] phrases; //contains all of the phrases
@@ -63,6 +62,41 @@ class Key {
   }
 }
 
+// Retrieves the letter of the currently moused-over cell
+char getLetter() {
+  int userX = mouseX;
+  int userY = mouseY; // current mouse Y coordinate
+  float keyWidth = sizeOfInputArea/7;
+  float keyHeight = sizeOfInputArea/5;
+  
+  // Short circuit for mouse over space and delete
+  // Check for space
+  if (userX > float(5)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea) 
+    if (userY > float(4)/5*sizeOfInputArea+200 & userY < 200 + sizeOfInputArea) // Moused over space
+      return '_';
+      
+  // Check for backspace
+  if (userX > float(6)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea)
+    if (userY > 200 & userY < 200 + float(1)/5 * sizeOfInputArea)
+      return '`';
+    
+  // If mouse is over any alphabet key
+  
+  int i = 0; // For cols
+  int j = 0; // For rows
+  
+  // Get column number
+  while (userX - 200 - i * keyWidth > keyWidth) {
+    i++;
+  }
+  
+  // Get row number
+  
+  
+  
+  return 'a';
+}  
+
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -87,13 +121,13 @@ void setup()
      float w= 0;
      float h= 0;
     
-     int charIndex = j*7+i+1;
+     int charIndex = j*7+i;
      if (charIndex < 26) {// 0-25 for alphabet characters.  Input letter initialized to a, so increase only from first to last
        x = i*float(1)/7*sizeOfInputArea+200;
        y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
        w = float(1)/7*sizeOfInputArea;
        h = float(1)/5*sizeOfInputArea;
-       if (charIndex > 1)
+       if (charIndex >= 1)
         inputLetter++;
      }
      else if (charIndex == 26) {// If 25, then alphabet is done.  Draw space in bottom right corner
@@ -176,12 +210,16 @@ void draw()
     
     // New draw code for alphabet grid // TODO: FIX SCAFFOLD CODE TO CHANGE SIZE OF TEXT DISPLAY AND GET RID OF CYCLE BUTTONS
     for (int i = 0; i < cols; i++) {
-    for (int j = 0; j < rows; j++) {
-      // Oscillate and display each object
-      grid[i][j].display();
+      for (int j = 0; j < rows; j++) {
+        // Oscillate and display each object
+        grid[i][j].display();
+      }
     }
-  }
-    //normal.mask(mascara);
+    
+    // TODO: Implement getLetter retrieval AND include if statements prior about using getLetter IFF (if (userX > 200 & userX < 200 + sizeOfInputArea) and if (userY > 200 + keyHeight & userY <)
+    
+    
+    
   }
   
 }
