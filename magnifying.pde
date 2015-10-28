@@ -62,40 +62,7 @@ class Key {
   }
 }
 
-// Retrieves the letter of the currently moused-over cell
-char getLetter() {
-  int userX = mouseX;
-  int userY = mouseY; // current mouse Y coordinate
-  float keyWidth = sizeOfInputArea/7;
-  float keyHeight = sizeOfInputArea/5;
-  
-  // Short circuit for mouse over space and delete
-  // Check for space
-  if (userX > float(5)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea) 
-    if (userY > float(4)/5*sizeOfInputArea+200 & userY < 200 + sizeOfInputArea) // Moused over space
-      return '_';
-      
-  // Check for backspace
-  if (userX > float(6)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea)
-    if (userY > 200 & userY < 200 + float(1)/5 * sizeOfInputArea)
-      return '`';
-    
-  // If mouse is over any alphabet key
-  
-  int i = 0; // For cols
-  int j = 0; // For rows
-  
-  // Get column number
-  while (userX - 200 - i * keyWidth > keyWidth) {
-    i++;
-  }
-  
-  // Get row number
-  
-  
-  
-  return 'a';
-}  
+
 
 //You can modify anything in here. This is just a basic implementation.
 void setup()
@@ -217,12 +184,49 @@ void draw()
     }
     
     // TODO: Implement getLetter retrieval AND include if statements prior about using getLetter IFF (if (userX > 200 & userX < 200 + sizeOfInputArea) and if (userY > 200 + keyHeight & userY <)
-    
-    
-    
+  
   }
   
 }
+
+// Retrieves the letter of the currently moused-over cell
+void setCurrentLetter() {
+  int userX = mouseX;
+  int userY = mouseY; // current mouse Y coordinate
+  float keyWidth = sizeOfInputArea/7;
+  float keyHeight = sizeOfInputArea/5;
+  
+  // ------ Short circuit for mouse over space and delete ------
+  // Check for space
+  if (userX > float(5)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea) 
+    if (userY > float(4)/5*sizeOfInputArea+200 & userY < 200 + sizeOfInputArea) // Moused over space
+      currentLetter = '_';
+      
+  // Check for backspace
+  if (userX > float(6)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea)
+    if (userY > 200 & userY < 200 + float(1)/5 * sizeOfInputArea)
+      currentLetter = '`';
+    
+  // ------ If mouse is over any alphabet key ------
+  
+  int i = 0; // For cols
+  int j = 0; // For rows
+  
+  // Get column index
+  while (userX - 200 - i * keyWidth > keyWidth) {
+    i++;
+  }
+  
+  // Get row index
+  while (userY - 200 - (j+1) * keyHeight > keyHeight) {
+    j++;
+  }
+  
+  // Set alphabet key
+  Key userKey = grid[i][j];
+  currentLetter = userKey.letter;
+ 
+}  
 
 boolean didMouseClick(float x, float y, float w, float h) //simple function to do hit testing
 {
