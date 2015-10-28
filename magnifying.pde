@@ -82,25 +82,41 @@ void setup()
   for (int j = 0; j < rows; j++) {
    for (int i = 0; i < cols; i++) {
      // Initialize each object parameters
-     float x = i*float(1)/7*sizeOfInputArea+200;
-     float y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
-     float w = float(1)/7*sizeOfInputArea;
-     float h = float(1)/5*sizeOfInputArea;
-     
+     float x = 0;
+     float y = 0;
+     float w= 0;
+     float h= 0;
+    
+     int charIndex = j*7+i+1;
+     if (charIndex < 26) {// 0-25 for alphabet characters.  Input letter initialized to a, so increase only from first to last
+       x = i*float(1)/7*sizeOfInputArea+200;
+       y = (j+1)*float(1)/5*sizeOfInputArea+200; // (j+1) to leave room for char input space
+       w = float(1)/7*sizeOfInputArea;
+       h = float(1)/5*sizeOfInputArea;
+       if (charIndex > 1)
+        inputLetter++;
+     }
+     else if (charIndex == 26) {// If 25, then alphabet is done.  Draw space in bottom right corner
+       inputLetter = '_';
+       x = 5*float(1)/7*sizeOfInputArea+200; // Hard code to bottom right
+       y = 4*float(1)/5*sizeOfInputArea+200; // Hard code to bottom right
+       w = float(2)/7*sizeOfInputArea;
+       h = float(1)/5*sizeOfInputArea;
+     }
+     else if (charIndex == 27) {// If 26, 
+       inputLetter = '`';
+       x = 6*float(1)/7*sizeOfInputArea+200; // Hard code to top right
+       y = 200; // Hard code to top right
+       w = float(1)/7*sizeOfInputArea;
+       h = float(1)/5*sizeOfInputArea;
+     }
      //print(float(1)/7 * 5);
-     //print("| x: " +x+ "y: " + y + "width: " + w + "height: " + h + " ");
-     
+     println("x: " +x+ "y: " + y + "width: " + w + "height: " + h + "letter: " + inputLetter);
+
      // Initialize the Key object
      grid[i][j] = new Key(x,y,w,h, inputLetter);  //  // TODO: ADD IN RIGHT LETTER
      
-     int charIndex = j*7+i+1;
-     // Increment correct character for next key on keyboard
-     if (charIndex < 26)  // 0-25 for alphabet characters
-       inputLetter++;
-     else if (charIndex == 26) // If 25, then alphabet is done.  Draw space
-       inputLetter = '_';
-     else if (charIndex == 27) // If 26, 
-       inputLetter = '`';
+     
      
    }
   }
