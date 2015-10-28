@@ -137,36 +137,41 @@ char setCurrentLetter(int x, int y) {
   // ------ Short circuit for mouse over space and delete ------
   // Check for space
   
-  if (x > float(5)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
-    if (y > float(4)/5*sizeOfInputArea+200 & y < 200 + sizeOfInputArea) {// Moused over space
-      println("Recognizing space key");
-      return '_';
-    }
-  // Check for delete
-  } else if (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
+  
+  //println("X in area for delete: " + (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea));
+  //println("Y in area for delete: " + (y > 200 & y < 200 + float(1)/5 * sizeOfInputArea));
+  if (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
+    println("X in area for delete: " + (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea));
     if (y > 200 & y < 200 + float(1)/5 * sizeOfInputArea) {
       println("Recognizing delete key");
       return '`';
     }
-  // ------ If mouse is over any alphabet key ------
-  } else {
-    int i = 0; // For cols
-    int j = 0; // For rows
-    
-    // Get column index
-    while (x - 200 - i * keyWidth > keyWidth) {
-      i++;
+  // Check for delete
+  } else if (x > float(5)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) {
+    if (y > float(4)/5*sizeOfInputArea+200 & y < 200 + sizeOfInputArea) {// Moused over space
+      //println("Recognizing space key");
+      return '_';
     }
-    
-    // Get row index
-    while (y - 200 - (j+1) * keyHeight > keyHeight) {
-      j++;
-    }
-    
-    // Set alphabet key
-    Key userKey = grid[i][j];
-    return userKey.letter;
   }
+  
+  // ------ If mouse is over any alphabet key ------
+
+  int i = 0; // For cols
+  int j = 0; // For rows
+  
+  // Get column index
+  while (x - 200 - i * keyWidth > keyWidth) {
+    i++;
+  }
+  
+  // Get row index
+  while (y - 200 - (j+1) * keyHeight > keyHeight) {
+    j++;
+  }
+  
+  // Set alphabet key
+  Key userKey = grid[i][j];
+  return userKey.letter;
 }
 
 //You can modify anything in here. This is just a basic implementation.
@@ -232,7 +237,7 @@ void draw()
     // set the currentLetter if user mouse is in designated area
     if (userX > 200 & userX < 200 + sizeOfInputArea)
       if (userY > 200 & userY < 200 + sizeOfInputArea) // In drawing space
-        setCurrentLetter(userX,userY);
+        currentLetter = setCurrentLetter(userX,userY);
   }
   
 }  
