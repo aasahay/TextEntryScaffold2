@@ -14,8 +14,8 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
-int userX = mouseX;
-int userY = mouseY; // current mouse Y coordinate
+int userX;
+int userY; // current mouse Y coordinate
 final int DPIofYourDeviceScreen = 441; //you will need to look up the DPI or PPI of your device to make sure you get the right scale!!
                                       //http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
@@ -69,6 +69,9 @@ class Key {
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
+  userX = mouseX;
+  userY = mouseY;
+  println("UserX: " + userX + " and userY: " + userY);
   phrases = loadStrings("phrases2.txt"); //load the phrase set into memory
   Collections.shuffle(Arrays.asList(phrases)); //randomize the order of the phrases
     
@@ -127,20 +130,24 @@ void setup()
 
 // Retrieves the letter of the currently moused-over cell
 // Assumes that key is currently over alphabet keys
-void setCurrentLetter() {
+void setCurrentLetter(int x, int y) {
   float keyWidth = sizeOfInputArea/7;
   float keyHeight = sizeOfInputArea/5;
   
   // ------ Short circuit for mouse over space and delete ------
   // Check for space
-  if (userX > float(5)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea) 
-    if (userY > float(4)/5*sizeOfInputArea+200 & userY < 200 + sizeOfInputArea) // Moused over space
+  
+  println("Here in setCurrentLetter");
+  if (x > float(5)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea) 
+    if (y > float(4)/5*sizeOfInputArea+200 & y < 200 + sizeOfInputArea) // Moused over space
       currentLetter = '_';
+      println("Recognizing space key");
       
   // Check for backspace
-  if (userX > float(6)/7*sizeOfInputArea+200 & userX < 200 + sizeOfInputArea)
-    if (userY > 200 & userY < 200 + float(1)/5 * sizeOfInputArea)
+  if (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea)
+    if (y > 200 & y < 200 + float(1)/5 * sizeOfInputArea)
       currentLetter = '`';
+      println("Recognizing delete key");
     
   // ------ If mouse is over any alphabet key ------
   
@@ -148,12 +155,12 @@ void setCurrentLetter() {
   int j = 0; // For rows
   
   // Get column index
-  while (userX - 200 - i * keyWidth > keyWidth) {
+  while (x - 200 - i * keyWidth > keyWidth) {
     i++;
   }
   
   // Get row index
-  while (userY - 200 - (j+1) * keyHeight > keyHeight) {
+  while (y - 200 - (j+1) * keyHeight > keyHeight) {
     j++;
   }
   
@@ -166,7 +173,7 @@ void setCurrentLetter() {
 void draw()
 {
   background(0); //clear background
-
+  
  // image(watch,-200,200);
   fill(100);
   rect(200, 200, sizeOfInputArea, sizeOfInputArea); //input area should be 2" by 2"
@@ -225,7 +232,7 @@ void draw()
     // set the currentLetter if user mouse is in designated area
     if (userX > 200 & userX < 200 + sizeOfInputArea)
       if (userY > 200 & userY < 200 + sizeOfInputArea) // In drawing space
-        setCurrentLetter();
+        setCurrentLetter(userX,userY);
   }
   
 }  
@@ -324,7 +331,22 @@ void nextTrial()
   //currentPhrase = "abc"; // uncomment this to override the test phrase (useful for debugging)
 }
 
+void updateUserMouse() // YOU CAN EDIT THIS
+{
+  // you can do whatever you want to userX and userY (you shouldn't touch mouseX and mouseY)
+  userX += mouseX - pmouseX; //add to userX the difference between the current mouseX and the previous mouseX
+  userY += mouseY - pmouseY; //add to userY the difference between the current mouseY and the previous mouseY
+}
 
+void mouseMoved() // Don't edit this
+{
+  updateUserMouse();
+}
+
+void mouseDragged() // Don't edit this
+{
+  updateUserMouse();
+} 
 
 
 //=========SHOULD NOT NEED TO TOUCH THIS METHOD AT ALL!==============
