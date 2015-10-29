@@ -267,7 +267,7 @@ void mousePressed()
 
 // Only want changes to currentLetters and currentTyped to happen upon "release" (i.e. when user takes finger off of screen)
 void mouseReleased() {
-  if (didMouseRelease(200, 200, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
+  if (didMouseRelease(200, 200, sizeOfInputArea, sizeOfInputArea)) //check if click occured in letter area
   {
     if (currentLetters=='_') //if underscore, consider that a space bar
       currentTyped+=" ";
