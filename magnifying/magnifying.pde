@@ -238,9 +238,11 @@ void draw()
     }
     
     // set the currentLetters if user mouse is in designated area
-    if (userX > 200 & userX < 200 + sizeOfInputArea)
-      if (userY > 200 & userY < 200 + sizeOfInputArea) // In drawing space
-        currentLetters = getCurrentMousedOverLetter(userX,userY);
+    if (mouseX > 200 & mouseX < 200 + sizeOfInputArea)
+    {
+      if (mouseY > 200 & mouseY < 200 + sizeOfInputArea) // In drawing space
+        currentLetters = getCurrentMousedOverLetter(mouseX,mouseY);
+    }
   }
   
 }  
@@ -269,6 +271,7 @@ void mouseReleased() {
   println("X: " + mouseX + ", Y: " + mouseY);
   if (didMouseRelease(200, 200, sizeOfInputArea, sizeOfInputArea)) //check if click occured in letter area
   {
+    currentLetters = getCurrentMousedOverLetter(mouseX,mouseY);
     if (currentLetters=='_') //if underscore, consider that a space bar
       currentTyped+=" ";
     else if (currentLetters=='<' & currentTyped.length()>0) //if <, treat that as a delete command
