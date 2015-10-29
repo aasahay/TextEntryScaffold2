@@ -21,7 +21,7 @@ final int DPIofYourDeviceScreen = 441; //you will need to look up the DPI or PPI
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 
 //Variables for my silly implementation. You can delete this:
-char currentLetter = 'a';
+char currentLetters = 'a';
 
 // ----- Set up for grid drawing---------------
 
@@ -130,7 +130,7 @@ void setup()
 
 // Retrieves the letter of the currently moused-over cell
 // Assumes that key is currently over alphabet keys
-char setCurrentLetter(int x, int y) {
+char getCurrentMousedOverLetter(int x, int y) {
   float keyWidth = sizeOfInputArea/7;
   float keyHeight = sizeOfInputArea/5;
   
@@ -155,7 +155,7 @@ char setCurrentLetter(int x, int y) {
   }
   
   if (y < 200 + sizeOfInputArea/5) {
-    return currentLetter;
+    return currentLetters;
   } else {
     // ------ If mouse is over any alphabet key ------
   
@@ -224,7 +224,7 @@ void draw()
 
     // Harrison draw code
     textAlign(CENTER);
-    text("" + currentLetter, 200+sizeOfInputArea/2, 200+sizeOfInputArea/10); // Draw current letter.  Given new dimensions of grid, this must be spaced 1/2 * 1/5 * sizeOf... to display above keyboard
+    text("" + currentLetters, 200+sizeOfInputArea/2, 200+sizeOfInputArea/10); // Draw current letter.  Given new dimensions of grid, this must be spaced 1/2 * 1/5 * sizeOf... to display above keyboard
     //fill(255, 0, 0);
     //rect(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
     //fill(0, 255, 0);
@@ -238,10 +238,10 @@ void draw()
       }
     }
     
-    // set the currentLetter if user mouse is in designated area
+    // set the currentLetters if user mouse is in designated area
     if (userX > 200 & userX < 200 + sizeOfInputArea)
       if (userY > 200 & userY < 200 + sizeOfInputArea) // In drawing space
-        currentLetter = setCurrentLetter(userX,userY);
+        currentLetters = getCurrentMousedOverLetter(userX,userY);
   }
   
 }  
@@ -251,34 +251,13 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
+boolean didMouseRelease(float x, float y, float w, float h) // same as above, but with better name for our purposes
+{
+  return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
+}
 
 void mousePressed()
 {
-
-  if (didMouseClick(200, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
-  {
-    currentLetter --;
-    if (currentLetter<'_') //wrap around to z
-      currentLetter = 'z';
-  }
-
-  if (didMouseClick(200+sizeOfInputArea/2, 200+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
-  {
-    currentLetter ++;
-    if (currentLetter>'z') //wrap back to space (aka underscore)
-      currentLetter = '_';
-  }
-
-  if (didMouseClick(200, 200, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
-  {
-    if (currentLetter=='_') //if underscore, consider that a space bar
-      currentTyped+=" ";
-    else if (currentLetter=='`' & currentTyped.length()>0) //if `, treat that as a delete command
-      currentTyped = currentTyped.substring(0, currentTyped.length()-1);
-    else if (currentLetter!='`') //if not any of the above cases, add the current letter to the typed string
-      currentTyped+=currentLetter;
-  }
-
   //You are allowed to have a next button outside the 2" area
   if (didMouseClick(800, 00, 200, 200)) //check if click is in next button
   {
@@ -286,6 +265,18 @@ void mousePressed()
   }
 }
 
+// Only want changes to currentLetters and currentTyped to happen upon "release" (i.e. when user takes finger off of screen)
+void mouseReleased() {
+  if (didMouseRelease(200, 200, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
+  {
+    if (currentLetters=='_') //if underscore, consider that a space bar
+      currentTyped+=" ";
+    else if (currentLetters=='`' & currentTyped.length()>0) //if `, treat that as a delete command
+      currentTyped = currentTyped.substring(0, currentTyped.length()-1);
+    else if (currentLetters!='`') //if not any of the above cases, add the current letter to the typed string
+      currentTyped+=currentLetters;
+  }
+}
 
 void nextTrial()
 {
