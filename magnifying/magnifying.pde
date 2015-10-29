@@ -16,7 +16,7 @@ String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
 int userX;
 int userY; // current mouse Y coordinate
-final int DPIofYourDeviceScreen = 441; //you will need to look up the DPI or PPI of your device to make sure you get the right scale!!
+final int DPIofYourDeviceScreen = 469; //you will need to look up the DPI or PPI of your device to make sure you get the right scale!!
                                       //http://en.wikipedia.org/wiki/List_of_displays_by_pixel_density
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 
@@ -76,7 +76,7 @@ void setup()
   Collections.shuffle(Arrays.asList(phrases)); //randomize the order of the phrases
     
   orientation(PORTRAIT); //can also be LANDSCAPE -- sets orientation on android device
-  size(1000, 1000); //Sets the size of the app. You may want to modify this to your device. Many phones today are 1080 wide by 1920 tall.
+  size(1080, 1920); //Sets the size of the app. You may want to modify this to your device. Many phones today are 1080 wide by 1920 tall.
   textFont(createFont("Arial", 35)); //set the font to arial 24
   noStroke(); //my code doesn't use any strokes.
   
@@ -266,6 +266,7 @@ void mousePressed()
 
 // Only want changes to currentLetters and currentTyped to happen upon "release" (i.e. when user takes finger off of screen)
 void mouseReleased() {
+  println("X: " + mouseX + ", Y: " + mouseY);
   if (didMouseRelease(200, 200, sizeOfInputArea, sizeOfInputArea)) //check if click occured in letter area
   {
     if (currentLetters=='_') //if underscore, consider that a space bar
