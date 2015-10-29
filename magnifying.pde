@@ -110,7 +110,7 @@ void setup()
        h = float(1)/5*sizeOfInputArea;
      }
      else if (charIndex == 27) {// If 26, 
-       inputLetter = '`';
+       inputLetter = '<';
        x = 6*float(1)/7*sizeOfInputArea+200; // Hard code to top right
        y = 200; // Hard code to top right
        w = float(1)/7*sizeOfInputArea;
@@ -143,8 +143,7 @@ char getCurrentMousedOverLetter(int x, int y) {
   if (x > float(6)/7*sizeOfInputArea+200 & y < 200 + float(1)/5 * sizeOfInputArea) { // Bound by |__
     //println("X in area for delete: " + (x > float(6)/7*sizeOfInputArea+200 & x < 200 + sizeOfInputArea));
     if (y > 200 & x < 200 + sizeOfInputArea) { // Bound on top and right side
-      println("Recognizing delete key");
-      return '`';
+      return '<';
     }
   // Check for delete
   } else if (x > float(5)/7*sizeOfInputArea+200 & y > float(4)/5*sizeOfInputArea+200) {
@@ -271,9 +270,9 @@ void mouseReleased() {
   {
     if (currentLetters=='_') //if underscore, consider that a space bar
       currentTyped+=" ";
-    else if (currentLetters=='`' & currentTyped.length()>0) //if `, treat that as a delete command
+    else if (currentLetters=='<' & currentTyped.length()>0) //if <, treat that as a delete command
       currentTyped = currentTyped.substring(0, currentTyped.length()-1);
-    else if (currentLetters!='`') //if not any of the above cases, add the current letter to the typed string
+    else if (currentLetters!='<') //if not any of the above cases, add the current letter to the typed string
       currentTyped+=currentLetters;
   }
 }
