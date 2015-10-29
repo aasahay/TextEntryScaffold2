@@ -50,7 +50,7 @@ class Key {
     h = tempH;
     letter = l;
     lx = tempX + (.5*tempW);
-    ly = tempY + (.5*tempH);
+    ly = tempY + (.6*tempH);
   } 
 
   void display() {
@@ -77,7 +77,7 @@ void setup()
     
   orientation(PORTRAIT); //can also be LANDSCAPE -- sets orientation on android device
   size(1000, 1000); //Sets the size of the app. You may want to modify this to your device. Many phones today are 1080 wide by 1920 tall.
-  textFont(createFont("Arial", 24)); //set the font to arial 24
+  textFont(createFont("Arial", 35)); //set the font to arial 24
   noStroke(); //my code doesn't use any strokes.
   
   // TODO: Initialize grid of keys, then: TODO: Draw keys on screen
